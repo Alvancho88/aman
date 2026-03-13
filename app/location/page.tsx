@@ -1,6 +1,6 @@
 "use client"
 
-import React, { Suspense } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
 import { ArrowLeft, Wind, AlertTriangle, Heart, MapPin, Clock, ThermometerSun, TrendingUp } from "lucide-react"
@@ -24,7 +24,17 @@ const MalaysiaMap = dynamic(() => import("@/components/malaysia-map"), {
 function LocationContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const [time, setTime] = useState("")
   
+  useEffect(() => {
+    const now = new Date().toLocaleString("en-MY", {
+      weekday: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+    setTime(now)
+  }, [])
+
   const state = searchParams.get("state") || ""
   const area = searchParams.get("area") || ""
   
@@ -100,7 +110,7 @@ function LocationContent() {
             {/* API Value Card */}
             <Card className="overflow-hidden shadow-lg border-0">
               <div
-                className="p-6"
+                className="p-4"
                 style={{ backgroundColor: category.color }}
               >
                 <div className="flex items-center justify-between">
@@ -120,14 +130,13 @@ function LocationContent() {
                   </div>
                 </div>
               </div>
-              <CardContent className="p-4 bg-white">
+              <CardContent className="px-6 pt-1 pb-3 bg-white space-y-1">
+                <p className="text-lg text-foreground leading-relaxed">
+                  {category.description}
+                </p>
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Clock className="h-4 w-4" />
-                  <span>Updated: {new Date().toLocaleString("en-MY", { 
-                    weekday: "short",
-                    hour: "2-digit",
-                    minute: "2-digit"
-                  })}</span>
+                  <span>Updated: {time}</span>
                   <span className="mx-2">|</span>
                   <ThermometerSun className="h-4 w-4" />
                   <span>Temperature: 28°C</span>
@@ -194,47 +203,6 @@ function LocationContent() {
                 </TooltipProvider>
               </CardContent>
             </Card>
-            
-            {/* Risk Level Description */}
-            <Card className="shadow-lg border-sky-100">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-xl text-sky-900 flex items-center gap-2">
-                  <div
-                    className="w-4 h-4 rounded-full"
-                    style={{ backgroundColor: category.color }}
-                  />
-                  Health Risk Category
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-lg text-foreground leading-relaxed">
-                  {category.description}
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Warning Alert - Only show when API >= 100 */}
-            {showWarning && (
-              <Card className="shadow-lg border-0 bg-gradient-to-r from-red-500 to-orange-500">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-white/20 p-3 rounded-full">
-                      <AlertTriangle className="h-8 w-8 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-white mb-2">
-                        ⚠️ Warning!!! Dangerous Polluted Air Outside!
-                      </h3>
-                      <p className="text-white/90 text-lg">
-                        The air quality in your area is currently at an unhealthy level. 
-                        Elderly individuals and those with respiratory conditions should 
-                        avoid outdoor activities.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
 
             {/* Health Advice */}
             <Card className="shadow-lg border-sky-100">
@@ -261,6 +229,29 @@ function LocationContent() {
                 </ul>
               </CardContent>
             </Card>
+
+            {/* Warning Alert - Only show when API >= 100 */}
+            {showWarning && (
+              <Card className="shadow-lg border-0 bg-gradient-to-r from-red-500 to-orange-500">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="bg-white/20 p-3 rounded-full">
+                      <AlertTriangle className="h-8 w-8 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-2">
+                        ⚠️ Warning!!! Dangerous Polluted Air Outside!
+                      </h3>
+                      <p className="text-white/90 text-lg">
+                        The air quality in your area is currently at an unhealthy level. 
+                        Elderly individuals and those with respiratory conditions should 
+                        avoid outdoor activities.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}            
 
             {/* View Pollution Trends Link */}
             <Link 
