@@ -142,14 +142,14 @@ export default function ComparePage() {
                 </div>
 
                 {/* Middle actions */}
-                <div className="flex flex-row lg:flex-col items-center justify-center gap-3 pt-1">
+                <div className="flex flex-row lg:flex-col items-center justify-center gap-3 pt-10">
                   <Button
                     type="button"
-                    variant="outline"
-                    className="h-12 px-4 border-sky-200 text-sky-900"
+                    variant="ghost"
+                    className="flex items-center gap-2 text-sky-900 hover:bg-transparent shadow-none"
                     onClick={swapSides}
                   >
-                    <ArrowRightLeft className="h-5 w-5 mr-2" />
+                    <ArrowRightLeft className="h-5 w-5" />
                     Swap
                   </Button>
                 </div>
@@ -209,13 +209,14 @@ export default function ComparePage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <Card className="border-sky-100 shadow-sm">
                   <CardContent className="p-6">
-                    <p className="text-sky-900 font-semibold text-lg">Location A result</p>
+                    <p className="text-sky-900 font-semibold text-lg">
+                      {leftArea}{leftState ? `, ${leftState}` : ""}
+                    </p>
                     {leftApi === undefined ? (
                       <p className="text-muted-foreground mt-2">Select a state and area to view API.</p>
                     ) : (
                       <div className="mt-4 flex items-center justify-between gap-4">
                         <div>
-                          <p className="text-muted-foreground">{leftArea}{leftState ? `, ${leftState}` : ""}</p>
                           <p className="text-5xl font-extrabold mt-2" style={{ color: leftCategory?.color ?? "#0ea5e9" }}>
                             {leftApi}
                           </p>
@@ -238,13 +239,14 @@ export default function ComparePage() {
 
                 <Card className="border-sky-100 shadow-sm">
                   <CardContent className="p-6">
-                    <p className="text-sky-900 font-semibold text-lg">Location B result</p>
+                    <p className="text-sky-900 font-semibold text-lg">
+                      {rightArea}{rightState ? `, ${rightState}` : ""}
+                    </p>
                     {rightApi === undefined ? (
                       <p className="text-muted-foreground mt-2">Select a state and area to view API.</p>
                     ) : (
                       <div className="mt-4 flex items-center justify-between gap-4">
                         <div>
-                          <p className="text-muted-foreground">{rightArea}{rightState ? `, ${rightState}` : ""}</p>
                           <p className="text-5xl font-extrabold mt-2" style={{ color: rightCategory?.color ?? "#0ea5e9" }}>
                             {rightApi}
                           </p>
@@ -268,23 +270,22 @@ export default function ComparePage() {
 
               <Card className="border-sky-100 shadow-sm">
                 <CardContent className="p-6">
-                  <p className="text-sky-900 font-semibold text-lg">Comparison</p>
                   {diff === null ? (
                     <p className="text-muted-foreground mt-2">Choose both locations to compare.</p>
                   ) : (
-                    <div className="mt-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                      <div className="text-lg">
-                        Difference (A − B):{" "}
-                        <span className={cn("font-extrabold", diff === 0 ? "text-sky-800" : diff > 0 ? "text-red-700" : "text-emerald-700")}>
-                          {diff > 0 ? `+${diff}` : diff}
-                        </span>
-                      </div>
-                      <div className="text-muted-foreground">
-                        {diff === 0
-                          ? "Both locations have the same API right now."
-                          : diff > 0
-                            ? "Location A is more polluted than Location B."
-                            : "Location A is cleaner than Location B."}
+                    <div className="mt-3">
+                      <div className="mt-3 text-sky-900 font-semibold text-lg">
+                        {diff === 0 ? (
+                          `${leftArea} and ${rightArea} have the same API right now.`
+                        ) : diff > 0 ? (
+                          <>
+                            {leftArea} has <span className="font-bold text-red-600">higher</span> pollution than {rightArea}.
+                          </>
+                        ) : (
+                          <>
+                            {leftArea} has <span className="font-bold text-emerald-600">lower</span> pollution than {rightArea}.
+                          </>
+                        )}
                       </div>
                     </div>
                   )}
