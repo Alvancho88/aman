@@ -1,14 +1,13 @@
 "use client"
 
-import { useMemo, useState, useEffect } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { ArrowLeft, ArrowRightLeft, BarChart3, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { NavigationBar } from "@/components/navigation-bar"
-import { useSearchParams } from "next/navigation"
-import { useRouter } from "next/navigation"
 import {
   Select,
   SelectContent,
@@ -20,29 +19,11 @@ import { malaysiaStates, mockApiData, getApiCategory } from "@/lib/malaysia-data
 import { cn } from "@/lib/utils"
 
 export default function ComparePage() {
-  const searchParams = useSearchParams()
   const router = useRouter()
-
-  const initialLeftState = searchParams.get("leftState") || ""
-  const initialLeftArea = searchParams.get("leftArea") || ""
-  const initialRightState = searchParams.get("rightState") || ""
-  const initialRightArea = searchParams.get("rightArea") || ""
-
-  const [leftState, setLeftState] = useState(initialLeftState)
-  const [leftArea, setLeftArea] = useState(initialLeftArea)
-  const [rightState, setRightState] = useState(initialRightState)
-  const [rightArea, setRightArea] = useState(initialRightArea)
-
-  useEffect(() => {
-  const params = new URLSearchParams()
-
-  if (leftState) params.set("leftState", leftState)
-  if (leftArea) params.set("leftArea", leftArea)
-  if (rightState) params.set("rightState", rightState)
-  if (rightArea) params.set("rightArea", rightArea)
-
-  router.replace(`/compare?${params.toString()}`)
-}, [leftState, leftArea, rightState, rightArea])
+  const [leftState, setLeftState] = useState("")
+  const [leftArea, setLeftArea] = useState("")
+  const [rightState, setRightState] = useState("")
+  const [rightArea, setRightArea] = useState("")
 
   const leftAreas = useMemo(() => {
     const stateData = malaysiaStates.find((s) => s.name === leftState)
@@ -69,36 +50,72 @@ export default function ComparePage() {
     setRightArea(leftArea)
   }
 
+  // Persist last comparison in localStorage so it survives navigation
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const stored = window.localStorage.getItem("aman-compare-state")
+    if (!stored) return
+    try {
+      const parsed = JSON.parse(stored) as {
+        leftState?: string
+        leftArea?: string
+        rightState?: string
+        rightArea?: string
+      }
+      if (parsed.leftState) setLeftState(parsed.leftState)
+      if (parsed.leftArea) setLeftArea(parsed.leftArea)
+      if (parsed.rightState) setRightState(parsed.rightState)
+      if (parsed.rightArea) setRightArea(parsed.rightArea)
+    } catch {
+      // ignore bad data
+    }
+    // run only once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const payload = JSON.stringify({ leftState, leftArea, rightState, rightArea })
+    window.localStorage.setItem("aman-compare-state", payload)
+  }, [leftState, leftArea, rightState, rightArea])
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
       <header className="bg-white shadow-sm border-b border-sky-100">
-        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
-          
-          <Link href="/">
-            <div className="flex items-center gap-4 cursor-pointer">
-              <div className="bg-white rounded-xl overflow-hidden w-12 h-12 flex items-center justify-center border border-sky-100 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3 md:gap-4">
+          <div className="flex items-center gap-3">
+            <Link href="/">
+              <div className="bg-white rounded-xl overflow-hidden w-14 h-14 flex items-center justify-center border border-sky-100 shadow-sm cursor-pointer">
                 <Image
-                  src="/icon.png"
-                  alt="AMAN logo"
-                  width={48}
-                  height={48}
+                  src="/aman-logo.png"
+                  alt="AMAN home"
+                  width={56}
+                  height={56}
                   className="object-contain"
                 />
               </div>
-              <div className="flex items-center gap-2">
-                <BarChart3 className="h-6 w-6 text-sky-500" />
-                <h1 className="text-2xl font-bold text-sky-900">Compare</h1>
-              </div>
+            </Link>
+            <div className="flex items-center gap-2">
+              <BarChart3 className="h-6 w-6 text-sky-500" />
+              <h1 className="text-2xl font-bold text-sky-900">Compare</h1>
             </div>
-          </Link>
-
+          </div>
           <div className="flex items-center gap-2">
             <NavigationBar />
-            <Button asChild variant="ghost" className="text-sky-700 hover:bg-sky-50">
-              <Link href="/">
-                <ArrowLeft className="h-5 w-5 mr-2" />
-                Back
-              </Link>
+            <Button
+              type="button"
+              variant="ghost"
+              className="text-sky-700 hover:bg-sky-50"
+              onClick={() => {
+                if (typeof window !== "undefined" && window.history.length > 1) {
+                  router.back()
+                } else {
+                  router.push("/")
+                }
+              }}
+            >
+              <ArrowLeft className="h-5 w-5 mr-2" />
+              <span className="text-lg">Back</span>
             </Button>
           </div>
         </div>
@@ -163,14 +180,14 @@ export default function ComparePage() {
                 </div>
 
                 {/* Middle actions */}
-                <div className="flex flex-row lg:flex-col items-center justify-center gap-3 pt-10">
+                <div className="flex flex-row lg:flex-col items-center justify-center gap-3 pt-1">
                   <Button
                     type="button"
-                    variant="ghost"
-                    className="flex items-center gap-2 text-sky-900 hover:bg-transparent shadow-none"
+                    variant="outline"
+                    className="h-12 px-4 border-sky-200 text-sky-900"
                     onClick={swapSides}
                   >
-                    <ArrowRightLeft className="h-5 w-5" />
+                    <ArrowRightLeft className="h-5 w-5 mr-2" />
                     Swap
                   </Button>
                 </div>
@@ -230,25 +247,34 @@ export default function ComparePage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <Card className="border-sky-100 shadow-sm">
                   <CardContent className="p-6">
-                    <p className="text-sky-900 font-semibold text-lg">
-                      {leftArea}{leftState ? `, ${leftState}` : ""}
-                    </p>
                     {leftApi === undefined ? (
                       <p className="text-muted-foreground mt-2">Select a state and area to view API.</p>
                     ) : (
                       <div className="mt-4 flex items-center justify-between gap-4">
                         <div>
-                          <p className="text-5xl font-extrabold mt-2" style={{ color: leftCategory?.color ?? "#0ea5e9" }}>
+                          <p className="text-xl font-semibold text-sky-900">
+                            {leftArea}{leftState ? `, ${leftState}` : ""}
+                          </p>
+                          <p
+                            className="mt-3 text-6xl font-extrabold px-4 py-2 rounded-xl inline-block shadow-md"
+                            style={{
+                              backgroundColor:
+                                leftCategory?.level === "Moderate"
+                                  ? "#e6c200"
+                                  : leftCategory?.color ?? "#0ea5e9",
+                              color: "#000000",
+                            }}
+                          >
                             {leftApi}
                           </p>
-                          <p className="text-lg font-semibold mt-1" style={{ color: leftCategory?.color ?? "#0ea5e9" }}>
+                          <p className="text-lg font-semibold mt-2" style={{ color: leftCategory?.color ?? "#0ea5e9" }}>
                             {leftCategory?.level}
                           </p>
                         </div>
                         <div className="text-right">
                           <Link
                             className="inline-flex items-center gap-2 text-sky-800 font-semibold hover:underline"
-                            href={`/location?state=${encodeURIComponent(leftState)}&area=${encodeURIComponent(leftArea)}&leftState=${encodeURIComponent(leftState)}&leftArea=${encodeURIComponent(leftArea)}&rightState=${encodeURIComponent(rightState)}&rightArea=${encodeURIComponent(rightArea)}`}
+                            href={`/location?state=${encodeURIComponent(leftState)}&area=${encodeURIComponent(leftArea)}`}
                           >
                             View details
                           </Link>
@@ -260,25 +286,34 @@ export default function ComparePage() {
 
                 <Card className="border-sky-100 shadow-sm">
                   <CardContent className="p-6">
-                    <p className="text-sky-900 font-semibold text-lg">
-                      {rightArea}{rightState ? `, ${rightState}` : ""}
-                    </p>
                     {rightApi === undefined ? (
                       <p className="text-muted-foreground mt-2">Select a state and area to view API.</p>
                     ) : (
                       <div className="mt-4 flex items-center justify-between gap-4">
                         <div>
-                          <p className="text-5xl font-extrabold mt-2" style={{ color: rightCategory?.color ?? "#0ea5e9" }}>
+                          <p className="text-xl font-semibold text-sky-900">
+                            {rightArea}{rightState ? `, ${rightState}` : ""}
+                          </p>
+                          <p
+                            className="mt-3 text-6xl font-extrabold px-4 py-2 rounded-xl inline-block shadow-md"
+                            style={{
+                              backgroundColor:
+                                rightCategory?.level === "Moderate"
+                                  ? "#e6c200"
+                                  : rightCategory?.color ?? "#0ea5e9",
+                              color: "#000000",
+                            }}
+                          >
                             {rightApi}
                           </p>
-                          <p className="text-lg font-semibold mt-1" style={{ color: rightCategory?.color ?? "#0ea5e9" }}>
+                          <p className="text-lg font-semibold mt-2" style={{ color: rightCategory?.color ?? "#0ea5e9" }}>
                             {rightCategory?.level}
                           </p>
                         </div>
                         <div className="text-right">
                           <Link
                             className="inline-flex items-center gap-2 text-sky-800 font-semibold hover:underline"
-                            href={`/location?state=${encodeURIComponent(rightState)}&area=${encodeURIComponent(rightArea)}&leftState=${encodeURIComponent(leftState)}&leftArea=${encodeURIComponent(leftArea)}&rightState=${encodeURIComponent(rightState)}&rightArea=${encodeURIComponent(rightArea)}`}
+                            href={`/location?state=${encodeURIComponent(rightState)}&area=${encodeURIComponent(rightArea)}`}
                           >
                             View details
                           </Link>
@@ -292,22 +327,29 @@ export default function ComparePage() {
               <Card className="border-sky-100 shadow-sm">
                 <CardContent className="p-6">
                   {diff === null ? (
-                    <p className="text-muted-foreground mt-2">Choose both locations to compare.</p>
+                    <p className="text-muted-foreground text-center text-lg">
+                      Choose both locations to compare.
+                    </p>
                   ) : (
-                    <div className="mt-3">
-                      <div className="mt-3 text-sky-900 font-semibold text-lg">
-                        {diff === 0 ? (
-                          `${leftArea} and ${rightArea} have the same API right now.`
-                        ) : diff > 0 ? (
-                          <>
-                            {leftArea} has <span className="font-bold text-red-600">higher</span> pollution than {rightArea}.
-                          </>
-                        ) : (
-                          <>
-                            {leftArea} has <span className="font-bold text-emerald-600">lower</span> pollution than {rightArea}.
-                          </>
-                        )}
-                      </div>
+                    <div className="mt-2 text-center">
+                      {diff === 0 ? (
+                        <p className="text-xl font-semibold text-sky-900">
+                          Both locations have the same API right now.
+                        </p>
+                      ) : (
+                        <p className="text-2xl font-bold text-sky-900">
+                          Location A is{" "}
+                          <span
+                            className={cn(
+                              "px-1 rounded-md",
+                              diff > 0 ? "bg-red-600 text-white" : "bg-emerald-600 text-white",
+                            )}
+                          >
+                            {diff > 0 ? "more polluted" : "cleaner"}
+                          </span>{" "}
+                          than Location B.
+                        </p>
+                      )}
                     </div>
                   )}
                 </CardContent>
@@ -319,4 +361,3 @@ export default function ComparePage() {
     </div>
   )
 }
-

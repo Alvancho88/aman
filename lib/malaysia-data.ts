@@ -167,7 +167,7 @@ export function getApiCategory(api: number) {
   } else if (api <= 100) {
     return {
       level: "Moderate",
-      color: "#ffde22",
+      color: "#ffff00",
       bgColor: "bg-yellow-400",
       textColor: "text-yellow-700",
       range: "51-100",

@@ -1,6 +1,7 @@
 "use client"
 
-import React, { Suspense, useEffect, useState } from "react"
+import React, { Suspense } from "react"
+import Image from "next/image"
 import { useSearchParams, useRouter } from "next/navigation"
 import dynamic from "next/dynamic"
 import { ArrowLeft, Wind, AlertTriangle, Heart, MapPin, Clock, ThermometerSun, TrendingUp } from "lucide-react"
@@ -24,17 +25,7 @@ const MalaysiaMap = dynamic(() => import("@/components/malaysia-map"), {
 function LocationContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const [time, setTime] = useState("")
   
-  useEffect(() => {
-    const now = new Date().toLocaleString("en-MY", {
-      weekday: "short",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-    setTime(now)
-  }, [])
-
   const state = searchParams.get("state") || ""
   const area = searchParams.get("area") || ""
   
@@ -69,26 +60,43 @@ function LocationContent() {
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-sky-100">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
+        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3 md:gap-4">
+          <div className="flex items-center gap-3">
+            <Link href="/">
+              <div className="bg-white rounded-xl overflow-hidden w-14 h-14 flex items-center justify-center border border-sky-100 shadow-sm cursor-pointer">
+                <Image
+                  src="/aman-logo.png"
+                  alt="AMAN home"
+                  width={56}
+                  height={56}
+                  className="object-contain"
+                />
+              </div>
+            </Link>
+            <div className="flex items-center gap-2">
+              <Wind className="h-6 w-6 text-sky-500" />
+              <h1 className="text-2xl font-bold text-sky-900">Air Quality Details</h1>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+              <NavigationBar />
               <Button
+                type="button"
                 variant="ghost"
-                onClick={() => router.push("/")}
+                onClick={() => {
+                  if (typeof window !== "undefined" && window.history.length > 1) {
+                    router.back()
+                  } else {
+                    router.push("/")
+                  }
+                }}
                 className="text-sky-700 hover:text-sky-900 hover:bg-sky-50"
               >
                 <ArrowLeft className="h-5 w-5 mr-2" />
-                <span className="text-lg">Back to Map</span>
+                <span className="text-lg">Back</span>
               </Button>
-              <div className="h-8 w-px bg-sky-200" />
-              <div className="flex items-center gap-2">
-                <Wind className="h-6 w-6 text-sky-500" />
-                <span className="text-xl font-semibold text-sky-900">Air Quality Details</span>
-              </div>
             </div>
-            <NavigationBar />
           </div>
-        </div>
       </header>
 
       {/* Main Content */}
@@ -107,10 +115,10 @@ function LocationContent() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Panel - API Information */}
           <div className="space-y-6">
-            {/* API Value Card */}
+            {/* API Value Card + summary */}
             <Card className="overflow-hidden shadow-lg border-0">
               <div
-                className="p-4"
+                className="p-6"
                 style={{ backgroundColor: category.color }}
               >
                 <div className="flex items-center justify-between">
@@ -130,16 +138,22 @@ function LocationContent() {
                   </div>
                 </div>
               </div>
-              <CardContent className="px-6 pt-1 pb-3 bg-white space-y-1">
-                <p className="text-lg text-foreground leading-relaxed">
-                  {category.description}
-                </p>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Clock className="h-4 w-4" />
-                  <span>Updated: {time}</span>
-                  <span className="mx-2">|</span>
-                  <ThermometerSun className="h-4 w-4" />
-                  <span>Temperature: 28°C</span>
+              <CardContent className="p-4 bg-white">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Clock className="h-4 w-4" />
+                    <span>Updated: {new Date().toLocaleString("en-MY", { 
+                      weekday: "short",
+                      hour: "2-digit",
+                      minute: "2-digit"
+                    })}</span>
+                    <span className="mx-2">|</span>
+                    <ThermometerSun className="h-4 w-4" />
+                    <span>Temperature: 28°C</span>
+                  </div>
+                  <p className="text-lg text-foreground leading-relaxed">
+                    {category.description}
+                  </p>
                 </div>
               </CardContent>
             </Card>
@@ -203,7 +217,7 @@ function LocationContent() {
                 </TooltipProvider>
               </CardContent>
             </Card>
-
+            
             {/* Health Advice */}
             <Card className="shadow-lg border-sky-100">
               <CardHeader className="pb-3">
@@ -251,7 +265,7 @@ function LocationContent() {
                   </div>
                 </CardContent>
               </Card>
-            )}            
+            )}
 
             {/* View Pollution Trends Link */}
             <Link 
