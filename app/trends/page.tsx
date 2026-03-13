@@ -3,6 +3,8 @@
 import React, { Suspense, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { ArrowLeft, Wind, TrendingUp, MapPin, Info } from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import {
@@ -84,33 +86,50 @@ function TrendsContent() {
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-sky-100">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  if (selectedState && selectedArea) {
-                    router.push(
-                      `/location?state=${encodeURIComponent(selectedState)}&area=${encodeURIComponent(selectedArea)}`,
-                    )
-                  } else {
-                    router.push("/")
-                  }
-                }}
-                className="text-sky-700 hover:text-sky-900 hover:bg-sky-50"
-              >
-                <ArrowLeft className="h-5 w-5 mr-2" />
-                <span className="text-lg">Back</span>
-              </Button>
-              <div className="h-8 w-px bg-sky-200" />
+        <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+
+          <Link href="/">
+            <div className="flex items-center gap-4 cursor-pointer">
+              <div className="bg-white rounded-xl overflow-hidden w-12 h-12 flex items-center justify-center border border-sky-100 shadow-sm">
+                <Image
+                  src="/icon.png"
+                  alt="AMAN logo"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                />
+              </div>
+
               <div className="flex items-center gap-2">
                 <TrendingUp className="h-6 w-6 text-sky-500" />
-                <span className="text-xl font-semibold text-sky-900">Pollution Trends</span>
+                <h1 className="text-2xl font-bold text-sky-900">
+                  Trend
+                </h1>
               </div>
             </div>
+          </Link>
+
+          <div className="flex items-center gap-2">
             <NavigationBar />
+
+            <Button
+              variant="ghost"
+              onClick={() => {
+                if (selectedState && selectedArea) {
+                  router.push(
+                    `/location?state=${encodeURIComponent(selectedState)}&area=${encodeURIComponent(selectedArea)}`
+                  )
+                } else {
+                  router.push("/")
+                }
+              }}
+              className="text-sky-700 hover:bg-sky-50"
+            >
+              <ArrowLeft className="h-5 w-5 mr-2" />
+              Back
+            </Button>
           </div>
+
         </div>
       </header>
 
