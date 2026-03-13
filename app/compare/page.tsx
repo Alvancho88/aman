@@ -52,15 +52,25 @@ export default function ComparePage() {
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-white">
       <header className="bg-white shadow-sm border-b border-sky-100">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <div className="bg-white rounded-xl overflow-hidden w-12 h-12 flex items-center justify-center border border-sky-100 shadow-sm">
-              <Image src="/aman-logo.png" alt="AMAN logo" width={48} height={48} className="object-contain" />
+          
+          <Link href="/">
+            <div className="flex items-center gap-4 cursor-pointer">
+              <div className="bg-white rounded-xl overflow-hidden w-12 h-12 flex items-center justify-center border border-sky-100 shadow-sm">
+                <Image
+                  src="/aman-logo.png"
+                  alt="AMAN logo"
+                  width={48}
+                  height={48}
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <BarChart3 className="h-6 w-6 text-sky-500" />
+                <h1 className="text-2xl font-bold text-sky-900">Compare</h1>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <BarChart3 className="h-6 w-6 text-sky-500" />
-              <h1 className="text-2xl font-bold text-sky-900">Compare</h1>
-            </div>
-          </div>
+          </Link>
+
           <div className="flex items-center gap-2">
             <NavigationBar />
             <Button asChild variant="ghost" className="text-sky-700 hover:bg-sky-50">

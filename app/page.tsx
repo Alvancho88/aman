@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import Image from "next/image"
 import { Search } from "lucide-react"
 import dynamic from "next/dynamic"
@@ -52,26 +53,28 @@ export default function HomePage() {
       <header className="bg-white shadow-sm border-b border-sky-100">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="bg-white rounded-xl overflow-hidden w-14 h-14 flex items-center justify-center border border-sky-100 shadow-sm">
-                <Image
-                  src="/aman-logo.png"
-                  alt="AMAN logo"
-                  width={56}
-                  height={56}
-                  className="object-contain"
-                  priority
-                />
+            <Link href="/">
+              <div className="flex items-center gap-4 cursor-pointer">
+                <div className="bg-white rounded-xl overflow-hidden w-14 h-14 flex items-center justify-center border border-sky-100 shadow-sm">
+                  <Image
+                    src="/aman-logo.png"
+                    alt="AMAN logo"
+                    width={56}
+                    height={56}
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-bold text-sky-900">
+                    AMAN
+                  </h1>
+                  <p className="text-sky-800 text-base md:text-lg font-medium">
+                    Air Monitoring and Notification
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-3xl md:text-4xl font-bold text-sky-900">
-                  AMAN
-                </h1>
-                <p className="text-sky-800 text-base md:text-lg font-medium">
-                  Air Monitoring and Notification
-                </p>
-              </div>
-            </div>
+            </Link>
             <NavigationBar />
           </div>
         </div>
