@@ -1,12 +1,14 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft, ArrowRightLeft, BarChart3, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { NavigationBar } from "@/components/navigation-bar"
+import { useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import {
   Select,
   SelectContent,
@@ -18,10 +20,29 @@ import { malaysiaStates, mockApiData, getApiCategory } from "@/lib/malaysia-data
 import { cn } from "@/lib/utils"
 
 export default function ComparePage() {
-  const [leftState, setLeftState] = useState("")
-  const [leftArea, setLeftArea] = useState("")
-  const [rightState, setRightState] = useState("")
-  const [rightArea, setRightArea] = useState("")
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const initialLeftState = searchParams.get("leftState") || ""
+  const initialLeftArea = searchParams.get("leftArea") || ""
+  const initialRightState = searchParams.get("rightState") || ""
+  const initialRightArea = searchParams.get("rightArea") || ""
+
+  const [leftState, setLeftState] = useState(initialLeftState)
+  const [leftArea, setLeftArea] = useState(initialLeftArea)
+  const [rightState, setRightState] = useState(initialRightState)
+  const [rightArea, setRightArea] = useState(initialRightArea)
+
+  useEffect(() => {
+  const params = new URLSearchParams()
+
+  if (leftState) params.set("leftState", leftState)
+  if (leftArea) params.set("leftArea", leftArea)
+  if (rightState) params.set("rightState", rightState)
+  if (rightArea) params.set("rightArea", rightArea)
+
+  router.replace(`/compare?${params.toString()}`)
+}, [leftState, leftArea, rightState, rightArea])
 
   const leftAreas = useMemo(() => {
     const stateData = malaysiaStates.find((s) => s.name === leftState)
@@ -227,7 +248,7 @@ export default function ComparePage() {
                         <div className="text-right">
                           <Link
                             className="inline-flex items-center gap-2 text-sky-800 font-semibold hover:underline"
-                            href={`/location?state=${encodeURIComponent(leftState)}&area=${encodeURIComponent(leftArea)}`}
+                            href={`/location?state=${encodeURIComponent(leftState)}&area=${encodeURIComponent(leftArea)}&leftState=${encodeURIComponent(leftState)}&leftArea=${encodeURIComponent(leftArea)}&rightState=${encodeURIComponent(rightState)}&rightArea=${encodeURIComponent(rightArea)}`}
                           >
                             View details
                           </Link>
@@ -257,7 +278,7 @@ export default function ComparePage() {
                         <div className="text-right">
                           <Link
                             className="inline-flex items-center gap-2 text-sky-800 font-semibold hover:underline"
-                            href={`/location?state=${encodeURIComponent(rightState)}&area=${encodeURIComponent(rightArea)}`}
+                            href={`/location?state=${encodeURIComponent(rightState)}&area=${encodeURIComponent(rightArea)}&leftState=${encodeURIComponent(leftState)}&leftArea=${encodeURIComponent(leftArea)}&rightState=${encodeURIComponent(rightState)}&rightArea=${encodeURIComponent(rightArea)}`}
                           >
                             View details
                           </Link>
