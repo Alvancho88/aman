@@ -74,7 +74,7 @@ export default function InformationPage() {
             <div className="flex items-center gap-4 cursor-pointer">
               <div className="bg-white rounded-xl overflow-hidden w-12 h-12 flex items-center justify-center border border-sky-100 shadow-sm">
                 <Image
-                  src="/aman-logo.png"
+                  src="/icon.png"
                   alt="AMAN logo"
                   width={48}
                   height={48}
