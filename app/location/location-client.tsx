@@ -205,7 +205,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
                         </div>
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom" className="max-w-[420px] p-4 bg-white border shadow-xl">
+                    <TooltipContent side="bottom" className="w-[300px] sm:w-[340px] p-4 bg-white border shadow-xl">
                       <div className="space-y-3">
 
                         {showForecastWarning && (
@@ -214,7 +214,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
                               <AlertTriangle className="h-4 w-4" />
                               Health Risk Warning
                             </p>
-                            <p className="text-foreground mt-1 whitespace-normal break-words leading-relaxed">
+                            <p className="text-foreground mt-1 whitespace-normal leading-relaxed">
                               {forecastHealthRisk}
                             </p>
                           </div>
@@ -225,7 +225,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
                             <Heart className="h-4 w-4" />
                             Health Guidance
                           </p>
-                          <p className="text-foreground mt-1 whitespace-normal break-words leading-relaxed">
+                          <p className="text-foreground mt-1 whitespace-normal leading-relaxed">
                             {forecastHealthGuidance}
                           </p>
                         </div>
