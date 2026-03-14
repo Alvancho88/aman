@@ -299,7 +299,7 @@ export function getForecastHealthGuidance(api: number): string {
   if (api <= 50) {
     return "Plan your outdoor activities freely tomorrow.";
   } else if (api <= 100) {
-    return "Good day for activities, but sensitive individuals should monitor conditions.";
+    return "Good day for activities, but sensitive groups should monitor conditions.";
   } else if (api <= 150) {
     return "Plan to limit outdoor activities. Consider staying indoors during peak hours.";
   } else if (api <= 200) {

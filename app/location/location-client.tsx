@@ -205,7 +205,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
                         </div>
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom" className="w-[360px] p-4 bg-white border shadow-xl">
+                    <TooltipContent side="bottom" className="w-fit max-w-[600px] p-4 bg-white border shadow-xl">
                       <div className="space-y-3">
 
                         {showForecastWarning && (
