@@ -109,12 +109,24 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
         <div className="bg-white p-4 rounded-lg shadow-lg border border-sky-100">
           <p className="font-semibold text-sky-900">{label}</p>
           <div className="flex items-center gap-2 mt-2">
-            <div 
+            <div
               className="w-4 h-4 rounded-full"
-              style={{ backgroundColor: category.color }}
+              style={{
+                backgroundColor:
+                  category.level === "Moderate"
+                    ? "#d4a800"
+                    : category.color
+              }}
             />
-            <p className="text-lg font-bold" style={{ color: category.color }}>
-              API: {api}
+            <p
+              className="text-lg font-bold"
+              style={{
+                color: category.level === "Moderate"
+                  ? "#d4a800"
+                  : category.color
+              }}
+            >
+              AQI: {api}
             </p>
           </div>
           <p className="text-sm text-muted-foreground mt-1">{category.level}</p>
@@ -249,7 +261,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
             <Card className="shadow-lg border-sky-100">
               <CardHeader>
                 <CardTitle className="text-xl text-sky-900">
-                  Monthly Average Air Quality Index (API)
+                  Monthly Average Air Quality Index (AQI)
                 </CardTitle>
                 <CardDescription>
                   Historical monthly averages showing seasonal pollution patterns
@@ -273,14 +285,21 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
                         axisLine={{ stroke: "#0ea5e9" }}
                         domain={[0, 200]}
                         label={{ 
-                          value: "API Value", 
+                          value: "AQI Value", 
                           angle: -90, 
                           position: "insideLeft",
                           fill: "#0c4a6e"
                         }}
                       />
                       <Tooltip content={<CustomTooltip />} />
-                      <Legend />
+                      <Legend
+                        formatter={() => "Month(AQI)"}
+                        wrapperStyle={{
+                          fontSize: "18px",
+                          fontWeight: 500,
+                          color: "#0c4a6e"
+                        }}
+                      />
                       
                       {/* Reference lines for API levels */}
                       <ReferenceLine y={50} stroke="#00e400" strokeDasharray="5 5" label={{ value: "Good (50)", fill: "#00e400", fontSize: 12 }} />
@@ -290,7 +309,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
                       <Line
                         type="monotone"
                         dataKey="api"
-                        name="Monthly Average API"
+                        name="Month"
                         stroke="#0ea5e9"
                         strokeWidth={3}
                         dot={{ fill: "#0ea5e9", strokeWidth: 2, r: 6 }}
@@ -318,7 +337,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
                       {enrichedData.reduce((min, curr) => curr.api < min.api ? curr : min).month}
                     </p>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Lowest average API during this month
+                      Lowest average AQI during this month
                     </p>
                   </div>
                   <div className="p-4 bg-orange-50 rounded-lg">
@@ -327,7 +346,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
                       {enrichedData.reduce((max, curr) => curr.api > max.api ? curr : max).month}
                     </p>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Highest average API during this month
+                      Highest average AQI during this month
                     </p>
                   </div>
                   <div className="p-4 bg-amber-50 rounded-lg md:col-span-2">

@@ -117,7 +117,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-black/70 text-lg mb-1">Current API</p>
+                    <p className="text-black/70 text-lg mb-1">Current AQI</p>
                     <p className="text-7xl md:text-8xl font-bold text-black">
                       {apiData.api}
                     </p>

@@ -116,10 +116,10 @@ export default function InformationPage() {
             <CardContent className="p-8 space-y-4">
               <div className="flex items-center gap-3">
                 <HeartPulse className="h-7 w-7 text-sky-600" />
-                <h2 className="text-2xl font-bold text-sky-900">AQI (API) levels and health impact</h2>
+                <h2 className="text-2xl font-bold text-sky-900">AQI levels and health impact</h2>
               </div>
               <p className="text-sky-900">
-                AMAN uses the Air Quality Index (AQI/API) to describe how clean or polluted the air is, and what it means for your health.
+                AMAN uses the Air Quality Index (AQI) to describe how clean or polluted the air is, and what it means for your health.
               </p>
 
               <div className="overflow-x-auto">
