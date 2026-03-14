@@ -1,6 +1,6 @@
 "use client"
 
-import React, { Suspense, useState } from "react"
+import React, { Suspense, useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useSearchParams, useRouter } from "next/navigation"
@@ -37,6 +37,20 @@ function TrendsContent() {
   
   const [selectedState, setSelectedState] = useState(initialState)
   const [selectedArea, setSelectedArea] = useState(initialArea)
+  // Restore last selected trend location
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const stored = window.localStorage.getItem("aman-trend-state")
+    if (!stored) return
+
+    try {
+      const parsed = JSON.parse(stored)
+      if (parsed.state) setSelectedState(parsed.state)
+      if (parsed.area) setSelectedArea(parsed.area)
+    } catch {
+      // ignore
+    }
+  }, [])
   const [areas, setAreas] = useState<string[]>(() => {
     const stateData = malaysiaStates.find((s) => s.name === initialState)
     return stateData?.areas || []
@@ -48,6 +62,25 @@ function TrendsContent() {
     const stateData = malaysiaStates.find((s) => s.name === state)
     setAreas(stateData?.areas || [])
   }
+
+  // Save trend selection
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const payload = JSON.stringify({
+      state: selectedState,
+      area: selectedArea,
+    })
+
+    window.localStorage.setItem("aman-trend-state", payload)
+  }, [selectedState, selectedArea])
+
+  useEffect(() => {
+    if (!selectedState) return
+
+    const stateData = malaysiaStates.find((s) => s.name === selectedState)
+    setAreas(stateData?.areas || [])
+  }, [selectedState])
 
   const trendsData = selectedArea ? getMonthlyTrends(selectedArea) : null
 

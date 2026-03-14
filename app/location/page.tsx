@@ -140,20 +140,29 @@ function LocationContent() {
               </div>
               <CardContent className="p-4 bg-white">
                 <div className="space-y-3">
+
+                  {/* Description first */}
+                  <div className="bg-white p-3 rounded-lg">
+                    <p className="text-lg text-foreground leading-relaxed">
+                      {category.description}
+                    </p>
+                  </div>
+
+                  {/* Updated row */}
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Clock className="h-4 w-4" />
-                    <span>Updated: {new Date().toLocaleString("en-MY", { 
-                      weekday: "short",
-                      hour: "2-digit",
-                      minute: "2-digit"
-                    })}</span>
+                    <span>
+                      Updated: {new Date().toLocaleString("en-MY", { 
+                        weekday: "short",
+                        hour: "2-digit",
+                        minute: "2-digit"
+                      })}
+                    </span>
                     <span className="mx-2">|</span>
                     <ThermometerSun className="h-4 w-4" />
                     <span>Temperature: 28°C</span>
                   </div>
-                  <p className="text-lg text-foreground leading-relaxed">
-                    {category.description}
-                  </p>
+
                 </div>
               </CardContent>
             </Card>
@@ -181,7 +190,12 @@ function LocationContent() {
                           <div className="flex-1">
                             <p
                               className="text-2xl font-semibold"
-                              style={{ color: forecastCategory.color }}
+                              style={{
+                                color:
+                                  forecastCategory.level === "Moderate"
+                                    ? "#e6c200"
+                                    : forecastCategory.color,
+                              }}
                             >
                               {forecastCategory.level}
                             </p>
@@ -235,7 +249,12 @@ function LocationContent() {
                     >
                       <span
                         className="mt-2 w-2 h-2 rounded-full shrink-0"
-                        style={{ backgroundColor: category.color }}
+                        style={{
+                          backgroundColor:
+                            category.level === "Moderate"
+                              ? "#e6c200"
+                              : category.color,
+                        }}
                       />
                       <span className="leading-relaxed">{advice}</span>
                     </li>

@@ -180,14 +180,14 @@ export default function ComparePage() {
                 </div>
 
                 {/* Middle actions */}
-                <div className="flex flex-row lg:flex-col items-center justify-center gap-3 pt-1">
+                <div className="flex flex-row lg:flex-col items-center justify-center gap-3 pt-12">
                   <Button
                     type="button"
-                    variant="outline"
-                    className="h-12 px-4 border-sky-200 text-sky-900"
+                    variant="ghost"
+                    className="flex items-center gap-2 text-sky-900 hover:bg-transparent shadow-none"
                     onClick={swapSides}
                   >
-                    <ArrowRightLeft className="h-5 w-5 mr-2" />
+                    <ArrowRightLeft className="h-5 w-5" />
                     Swap
                   </Button>
                 </div>
@@ -260,14 +260,21 @@ export default function ComparePage() {
                             style={{
                               backgroundColor:
                                 leftCategory?.level === "Moderate"
-                                  ? "#e6c200"
+                                  ? "#ffff00"
                                   : leftCategory?.color ?? "#0ea5e9",
                               color: "#000000",
                             }}
                           >
                             {leftApi}
                           </p>
-                          <p className="text-lg font-semibold mt-2" style={{ color: leftCategory?.color ?? "#0ea5e9" }}>
+                          <p
+                            className="text-lg font-semibold mt-2"
+                            style={{
+                              color: leftCategory?.level === "Moderate"
+                                ? "#e6c200"
+                                : leftCategory?.color ?? "#0ea5e9",
+                            }}
+                          >
                             {leftCategory?.level}
                           </p>
                         </div>
@@ -299,14 +306,21 @@ export default function ComparePage() {
                             style={{
                               backgroundColor:
                                 rightCategory?.level === "Moderate"
-                                  ? "#e6c200"
+                                  ? "#ffff00"
                                   : rightCategory?.color ?? "#0ea5e9",
                               color: "#000000",
                             }}
                           >
                             {rightApi}
                           </p>
-                          <p className="text-lg font-semibold mt-2" style={{ color: rightCategory?.color ?? "#0ea5e9" }}>
+                          <p
+                            className="text-lg font-semibold mt-2"
+                            style={{
+                              color: rightCategory?.level === "Moderate"
+                                ? "#e6c200"
+                                : rightCategory?.color ?? "#0ea5e9",
+                            }}
+                          >
                             {rightCategory?.level}
                           </p>
                         </div>
