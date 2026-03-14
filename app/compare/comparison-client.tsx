@@ -359,7 +359,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
                         </p>
                       ) : (
                         <p className="text-2xl font-bold text-sky-900">
-                          Location A is{" "}
+                          {leftArea} is{" "}
                           <span
                             className={cn(
                               "px-1 rounded-md",
@@ -368,7 +368,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
                           >
                             {diff > 0 ? "more polluted" : "cleaner"}
                           </span>{" "}
-                          than Location B.
+                          than {rightArea}.
                         </p>
                       )}
                     </div>
