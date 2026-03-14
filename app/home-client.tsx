@@ -96,7 +96,7 @@ export default function HomePage({ initialData }: { initialData: APIData[] }) {
                 </div>
               </div>
             </Link>
-            <div className="w-full md:w-auto">
+            <div className="flex items-center">
               <NavigationBar />
             </div>
           </div>
