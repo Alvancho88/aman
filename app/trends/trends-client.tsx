@@ -52,20 +52,27 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
     )).sort() as string[];
   }, [selectedState, initialData]);
 
-  // Restore last selected trend location
+  // Restore last selected trend location (only if URL has no location)
   useEffect(() => {
     if (typeof window === "undefined") return
+
+    // If the page was opened with a specific location (from Location page),
+    // do NOT override it with localStorage memory
+    if (initialState && initialArea) return
+
     const stored = window.localStorage.getItem("aman-trend-state")
     if (!stored) return
 
     try {
       const parsed = JSON.parse(stored)
+
       if (parsed.state) setSelectedState(parsed.state)
       if (parsed.area) setSelectedArea(parsed.area)
+
     } catch {
       // ignore
     }
-  }, [])
+  }, [initialState, initialArea])
 
   const handleStateChange = (state: string) => {
     setSelectedState(state)
