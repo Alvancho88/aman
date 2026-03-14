@@ -86,7 +86,7 @@ export default function MalaysiaMap({
 
       // Create custom HTML icon
       const iconHtml = `
-        <div style="display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -100%);">
+        <div style="display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -100%); cursor: pointer;">
           <div style="
             background-color: ${category.color};
             color: black;

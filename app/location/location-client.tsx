@@ -360,18 +360,18 @@ export default function LocationContent({ initialData, allData, searchState, sea
                 {/* Real Zoomed Map using Leaflet */}
                 <div className="h-[400px] md:h-[500px]">
                   <MalaysiaMap
-                    markers={[
-                      { name: area, api: apiData.api, lat: apiData.latitude, lng: apiData.longitude },
-                      ...nearbyMarkers.filter(m => m.name == area).map(m => ({
-                        name: m.name,
-                        api: m.api,
-                        lat: m.lat,
-                        lng: m.lng,
-                      }))
-                    ]}
+                    markers={allData.map(m => ({
+                      name: m.city,
+                      api: m.api,
+                      lat: m.latitude,
+                      lng: m.longitude,
+                    }))}
                     center={[apiData.latitude, apiData.longitude]}
                     zoom={11}
                     highlightArea={area}
+                    onMarkerClick={(marker) => {
+                      router.push(`/location?area=${encodeURIComponent(marker.name)}`)
+                    }}
                   />
                 </div>
               </CardContent>
