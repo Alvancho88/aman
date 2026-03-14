@@ -41,6 +41,8 @@ export default function LocationContent({ initialData, allData, searchState, sea
   const forecastHealthRisk = getForecastHealthRisk(forecastApiValue);
   const forecastHealthGuidance = getForecastHealthGuidance(forecastApiValue);
 
+  const showForecastWarning = forecastApiValue >= 101
+
   // Get nearby markers for the zoomed map
   const nearbyMarkers = allData
     .filter(m => {
@@ -203,18 +205,22 @@ export default function LocationContent({ initialData, allData, searchState, sea
                         </div>
                       </div>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom" className="w-[320px] p-4 bg-white border shadow-xl">
+                    <TooltipContent side="bottom" className="max-w-[420px] p-4 bg-white border shadow-xl">
                       <div className="space-y-3">
-                        <div>
-                          <p className="font-semibold text-red-600 flex items-center gap-2">
-                            <AlertTriangle className="h-4 w-4" />
-                            Health Risk Warning
-                          </p>
-                          <p className="text-foreground mt-1 whitespace-normal break-words leading-relaxed">
-                            {forecastHealthRisk}
-                          </p>
-                        </div>
-                        <div className="border-t pt-2">
+
+                        {showForecastWarning && (
+                          <div>
+                            <p className="font-semibold text-red-600 flex items-center gap-2">
+                              <AlertTriangle className="h-4 w-4" />
+                              Health Risk Warning
+                            </p>
+                            <p className="text-foreground mt-1 whitespace-normal break-words leading-relaxed">
+                              {forecastHealthRisk}
+                            </p>
+                          </div>
+                        )}
+
+                        <div className={showForecastWarning ? "border-t pt-2" : ""}>
                           <p className="font-semibold text-sky-700 flex items-center gap-2">
                             <Heart className="h-4 w-4" />
                             Health Guidance
@@ -223,6 +229,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
                             {forecastHealthGuidance}
                           </p>
                         </div>
+
                       </div>
                     </TooltipContent>
                   </Tooltip>
