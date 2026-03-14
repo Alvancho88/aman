@@ -84,12 +84,12 @@ export default function InformationPage() {
                 />
               </div>
             </Link>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Info className="h-6 w-6 text-sky-500" />
               <h1 className="text-2xl font-bold text-sky-900">Information</h1>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <NavigationBar />
             <Button
               type="button"
@@ -135,7 +135,7 @@ export default function InformationPage() {
                     {aqiTable.map((row) => (
                       <tr key={row.range} className="align-top">
                         <td className="py-3 px-4 border-b border-sky-50 font-semibold">
-                          <span className="inline-flex items-center gap-2">
+                          <span className="inline-flex flex-wrap items-center gap-2">
                             <span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: row.color }} />
                             {row.range}
                           </span>
@@ -195,7 +195,7 @@ export default function InformationPage() {
           </p>
         </div>
       </footer>
-      
+
     </div>
   )
 }

@@ -69,12 +69,12 @@ export default function LocationContent({ initialData, allData, searchState, sea
                 />
               </div>
             </Link>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Wind className="h-6 w-6 text-sky-500" />
               <h1 className="text-2xl font-bold text-sky-900">Air Quality Details</h1>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
               <NavigationBar />
               <Button
                 type="button"
@@ -99,7 +99,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
       <main className="max-w-7xl mx-auto px-4 py-6">
         {/* Location Title */}
         <div className="mb-6">
-          <div className="flex items-center gap-2 text-sky-600 mb-1">
+          <div className="flex flex-wrap items-center gap-2 text-sky-600 mb-1">
             <MapPin className="h-5 w-5" />
             <span className="text-lg">{state}</span>
           </div>
@@ -114,13 +114,13 @@ export default function LocationContent({ initialData, allData, searchState, sea
             {/* API Value Card + summary */}
             <Card className="overflow-hidden shadow-lg border-0">
               <div
-                className="p-6"
+                className="p-4 md:p-6"
                 style={{ backgroundColor: category.color }}
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-black/70 text-lg mb-1">Current AQI</p>
-                    <p className="text-7xl md:text-8xl font-bold text-black">
+                    <p className="text-5xl sm:text-6xl md:text-8xl font-bold text-black">
                       {apiData.api}
                     </p>
                   </div>
@@ -145,7 +145,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
                   </div>
 
                   {/* Updated row */}
-                  <div className="flex items-center gap-2 text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
                     <Clock className="h-4 w-4" />
                     <span>
                       Updated: {apiData.updateTime.toLocaleString("en-MY", { 
@@ -166,7 +166,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
             {/* Next Day Forecast */}
             <Card className="shadow-lg border-sky-100">
               <CardHeader className="pb-3">
-                <CardTitle className="text-xl text-sky-900 flex items-center gap-2">
+                <CardTitle className="text-xl text-sky-900 flex flex-wrap items-center gap-2">
                   <Clock className="h-5 w-5 text-sky-500" />
                   Next Day Forecast
                 </CardTitle>
@@ -178,7 +178,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
                       <div className="cursor-pointer hover:opacity-90 transition-opacity">
                         <div className="flex items-center gap-4">
                           <div
-                            className="px-6 py-4 rounded-xl text-black font-bold text-4xl shadow-lg"
+                            className="px-6 py-4 rounded-xl text-black font-bold text-3xl sm:text-4xl shadow-lg"
                             style={{ backgroundColor: forecastCategory.color }}
                           >
                             {forecastApiValue}
@@ -210,7 +210,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
 
                         {showForecastWarning && (
                           <div>
-                            <p className="font-semibold text-red-600 flex items-center gap-2">
+                            <p className="font-semibold text-red-600 flex flex-wrap items-center gap-2">
                               <AlertTriangle className="h-4 w-4" />
                               Health Risk Warning
                             </p>
@@ -221,7 +221,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
                         )}
 
                         <div className={showForecastWarning ? "border-t pt-2" : ""}>
-                          <p className="font-semibold text-sky-700 flex items-center gap-2">
+                          <p className="font-semibold text-sky-700 flex flex-wrap items-center gap-2">
                             <Heart className="h-4 w-4" />
                             Health Guidance
                           </p>
@@ -240,7 +240,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
             {/* Health Advice */}
             <Card className="shadow-lg border-sky-100">
               <CardHeader className="pb-3">
-                <CardTitle className="text-xl text-sky-900 flex items-center gap-2">
+                <CardTitle className="text-xl text-sky-900 flex flex-wrap items-center gap-2">
                   <Heart className="h-5 w-5 text-red-500" />
                   Health Advice for You
                 </CardTitle>
@@ -271,7 +271,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
             {/* Warning Alert - Only show when API >= 100 */}
             {showWarning && (
               <Card className="shadow-lg border-0 bg-gradient-to-r from-red-500 to-orange-500">
-                <CardContent className="p-6">
+                <CardContent className="p-4 md:p-6">
                   <div className="flex items-start gap-4">
                     <div className="bg-white/20 p-3 rounded-full">
                       <AlertTriangle className="h-8 w-8 text-white" />
@@ -297,7 +297,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
               className="block"
             >
               <Card className="shadow-lg border-sky-100 hover:border-sky-300 hover:shadow-xl transition-all cursor-pointer">
-                <CardContent className="p-6">
+                <CardContent className="p-4 md:p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className="bg-sky-100 p-3 rounded-full">
@@ -351,14 +351,14 @@ export default function LocationContent({ initialData, allData, searchState, sea
           <div className="lg:sticky lg:top-6 h-fit">
             <Card className="shadow-lg border-sky-100 overflow-hidden">
               <CardHeader className="pb-3 bg-white">
-                <CardTitle className="text-xl text-sky-900 flex items-center gap-2">
+                <CardTitle className="text-xl text-sky-900 flex flex-wrap items-center gap-2">
                   <MapPin className="h-5 w-5 text-sky-500" />
                   {area}, {state}
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 {/* Real Zoomed Map using Leaflet */}
-                <div className="h-[400px] md:h-[500px]">
+                <div className="h-[280px] sm:h-[380px] md:h-[500px]">
                   <MalaysiaMap
                     markers={allData.map(m => ({
                       name: m.city,

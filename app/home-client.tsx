@@ -104,7 +104,7 @@ export default function HomePage({ initialData }: { initialData: APIData[] }) {
       {/* Search Panel */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         <Card className="bg-white shadow-lg border-sky-100">
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <h2 className="text-xl font-semibold text-sky-900 mb-4">
               Select Your Location
             </h2>
@@ -180,7 +180,7 @@ export default function HomePage({ initialData }: { initialData: APIData[] }) {
         <Card className="bg-white shadow-lg border-sky-100 overflow-hidden">
           <CardContent className="p-0">
             {/* Real Map Container using Leaflet */}
-            <div className="h-[500px] md:h-[600px]">
+            <div className="h-[300px] sm:h-[400px] md:h-[600px]">
               <MalaysiaMap
                 markers={initialData.map((data) => ({
                   name: data.city ?? "Unknown Station",
@@ -214,7 +214,7 @@ export default function HomePage({ initialData }: { initialData: APIData[] }) {
                 ].map((item) => (
                   <div
                     key={item.label}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-black font-medium text-sm"
+                    className="flex flex-wrap items-center gap-2 px-3 py-2 rounded-lg text-black font-medium text-sm"
                     style={{ backgroundColor: item.color }}
                   >
                     <span>{item.label}</span>

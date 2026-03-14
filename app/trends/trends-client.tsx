@@ -108,7 +108,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
       return (
         <div className="bg-white p-4 rounded-lg shadow-lg border border-sky-100">
           <p className="font-semibold text-sky-900">{label}</p>
-          <div className="flex items-center gap-2 mt-2">
+          <div className="flex flex-wrap items-center gap-2 mt-2">
             <div
               className="w-4 h-4 rounded-full"
               style={{
@@ -153,12 +153,12 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
                 />
               </div>
             </Link>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <TrendingUp className="h-6 w-6 text-sky-500" />
               <h1 className="text-2xl font-bold text-sky-900">Pollution Trends</h1>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <NavigationBar />
             <Button
               type="button"
@@ -193,7 +193,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
 
         {/* Location Selector */}
         <Card className="bg-white shadow-lg border-sky-100 mb-6">
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex flex-col md:flex-row gap-4">
               {/* State Dropdown */}
               <div className="flex-1">
@@ -252,7 +252,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
         {selectedArea && enrichedData ? (
           <div className="space-y-6">
             {/* Location Header */}
-            <div className="flex items-center gap-2 text-sky-600">
+            <div className="flex flex-wrap items-center gap-2 text-sky-600">
               <MapPin className="h-5 w-5" />
               <span className="text-lg font-medium">{selectedArea}, {selectedState}</span>
             </div>
@@ -268,7 +268,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[400px] w-full">
+                <div className="h-[280px] sm:h-[350px] md:h-[400px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                       data={enrichedData}
@@ -324,7 +324,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
             {/* Seasonal Analysis */}
             <Card className="shadow-lg border-sky-100">
               <CardHeader>
-                <CardTitle className="text-xl text-sky-900 flex items-center gap-2">
+                <CardTitle className="text-xl text-sky-900 flex flex-wrap items-center gap-2">
                   <Info className="h-5 w-5 text-sky-500" />
                   Seasonal Analysis
                 </CardTitle>

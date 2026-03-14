@@ -102,12 +102,12 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
                 />
               </div>
             </Link>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <BarChart3 className="h-6 w-6 text-sky-500" />
               <h1 className="text-2xl font-bold text-sky-900">Compare</h1>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <NavigationBar />
             <Button
               type="button"
@@ -138,7 +138,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
               <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-4 items-start">
                 {/* Left selector */}
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-sky-700 font-semibold">
+                  <div className="flex i  tems-center gap-2 text-sky-700 font-semibold">
                     <MapPin className="h-5 w-5" />
                     Location A
                   </div>
@@ -191,7 +191,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
                   <Button
                     type="button"
                     variant="ghost"
-                    className="flex items-center gap-2 text-sky-900 hover:bg-transparent shadow-none"
+                    className="flex flex-wrap items-center gap-2 text-sky-900 hover:bg-transparent shadow-none"
                     onClick={swapSides}
                   >
                     <ArrowRightLeft className="h-5 w-5" />
@@ -201,7 +201,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
 
                 {/* Right selector */}
                 <div className="space-y-3">
-                  <div className="flex items-center gap-2 text-sky-700 font-semibold">
+                  <div className="flex flex-wrap items-center gap-2 text-sky-700 font-semibold">
                     <MapPin className="h-5 w-5" />
                     Location B
                   </div>
@@ -253,7 +253,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
               {/* Results */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <Card className="border-sky-100 shadow-sm">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 md:p-6">
                     {leftApi === undefined ? (
                       <p className="text-muted-foreground mt-2">Select a state and area to view API.</p>
                     ) : (
@@ -287,7 +287,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
                         </div>
                         <div className="text-right">
                           <Link
-                            className="inline-flex items-center gap-2 text-sky-800 font-semibold hover:underline"
+                            className="inline-flex flex-wrap items-center gap-2 text-sky-800 font-semibold hover:underline"
                             href={`/location?state=${encodeURIComponent(leftState)}&area=${encodeURIComponent(leftArea)}`}
                           >
                             View details
@@ -299,7 +299,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
                 </Card>
 
                 <Card className="border-sky-100 shadow-sm">
-                  <CardContent className="p-6">
+                  <CardContent className="p-4 md:p-6">
                     {rightApi === undefined ? (
                       <p className="text-muted-foreground mt-2">Select a state and area to view API.</p>
                     ) : (
@@ -333,7 +333,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
                         </div>
                         <div className="text-right">
                           <Link
-                            className="inline-flex items-center gap-2 text-sky-800 font-semibold hover:underline"
+                            className="inline-flex flex-wrap items-center gap-2 text-sky-800 font-semibold hover:underline"
                             href={`/location?state=${encodeURIComponent(rightState)}&area=${encodeURIComponent(rightArea)}`}
                           >
                             View details
@@ -346,7 +346,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
               </div>
 
               <Card className="border-sky-100 shadow-sm">
-                <CardContent className="p-6">
+                <CardContent className="p-4 md:p-6">
                   {diff === null ? (
                     <p className="text-muted-foreground text-center text-lg">
                       Choose both locations to compare.
@@ -390,7 +390,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
           </p>
         </div>
       </footer>
-      
+
     </div>
   )
 }
