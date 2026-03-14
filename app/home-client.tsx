@@ -73,7 +73,7 @@ export default function HomePage({ initialData }: { initialData: APIData[] }) {
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-sky-100">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <Link href="/">
               <div className="flex items-center gap-4 cursor-pointer">
                 <div className="bg-white rounded-xl overflow-hidden w-14 h-14 flex items-center justify-center border border-sky-100 shadow-sm">
@@ -96,7 +96,9 @@ export default function HomePage({ initialData }: { initialData: APIData[] }) {
                 </div>
               </div>
             </Link>
-            <NavigationBar />
+            <div className="w-full md:w-auto">
+              <NavigationBar />
+            </div>
           </div>
         </div>
       </header>
