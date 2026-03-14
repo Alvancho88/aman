@@ -9,7 +9,6 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'AMAN',
   description: 'Real-time air quality monitoring for elderly residents in Malaysia',
-  generator: 'v0.app',
   icons: {
     icon: [
       { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
