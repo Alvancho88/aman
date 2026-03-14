@@ -379,6 +379,18 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
           </Card>
         </div>
       </main>
+
+      <footer className="bg-sky-900 text-white py-6 mt-8">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-sky-200">
+            Data source: AQICN Malaysia Air Quality Data | Designed for elderly residents
+          </p>
+          <p className="text-sky-300 mt-2 text-sm">
+            2026 Malaysia Air Quality Monitor - FIT5120 TM02 Quintet
+          </p>
+        </div>
+      </footer>
+      
     </div>
   )
 }
