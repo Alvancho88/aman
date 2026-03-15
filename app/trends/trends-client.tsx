@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { malaysiaStates, getMonthlyTrends, getApiCategory } from "@/lib/malaysia-data"
+import { getMonthlyTrends, getApiCategory } from "@/lib/malaysia-data"
 import {
   LineChart,
   Line,
@@ -27,6 +27,26 @@ import {
   Legend,
 } from "recharts"
 import { NavigationBar } from "@/components/navigation-bar"
+import { fetchMonthlyTrends } from "./actions"
+
+const MONTH_NAMES = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+]
+
+interface TrendRow {
+  monthIndex: number
+  avgApi: number
+  state: string
+  city: string
+}
+
+interface EnrichedRow {
+  month: string
+  api: number
+  color: string
+  category: string
+}
 
 export default function TrendsContent({ initialData }: { initialData: any[] }) {
   const searchParams = useSearchParams()
@@ -36,7 +56,10 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
   const initialArea = searchParams.get("area") || ""
   
   const [selectedState, setSelectedState] = useState(initialState)
-  const [selectedArea, setSelectedArea] = useState(initialArea)
+  const [selectedArea,  setSelectedArea]  = useState(initialArea)
+  const [trendsData,    setTrendsData]    = useState<TrendRow[]>([])
+  const [loading,       setLoading]       = useState(false)
+
 
     const uniqueStates = React.useMemo(() => {
     return Array.from(new Set(initialData.map(d => d.state).filter(Boolean))).sort();
@@ -77,6 +100,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
   const handleStateChange = (state: string) => {
     setSelectedState(state)
     setSelectedArea("")
+    setTrendsData([])
   }
 
   // Save trend selection
@@ -91,13 +115,24 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
     window.localStorage.setItem("aman-trend-state", payload)
   }, [selectedState, selectedArea])
 
-  const trendsData = selectedArea ? getMonthlyTrends(selectedArea) : null
+  useEffect(() => {
+    console.log("useEffect triggered, selectedArea:", selectedArea)
+    if (!selectedArea) {
+      setTrendsData([])
+      return
+    }
+    setLoading(true)
+    fetchMonthlyTrends(selectedArea)
+      .then((data) => setTrendsData(data as TrendRow[]))
+      .finally(() => setLoading(false))
+  }, [selectedArea])
 
   // Add color category to each data point
-  const enrichedData = trendsData?.map(item => ({
-    ...item,
-    color: getApiCategory(item.api).color,
-    category: getApiCategory(item.api).level,
+  const enrichedData: EnrichedRow[] = trendsData.map((item) => ({
+    month:    MONTH_NAMES[item.monthIndex - 1] ?? `M${item.monthIndex}`,
+    api:      item.avgApi,
+    color:    getApiCategory(item.avgApi).color,
+    category: getApiCategory(item.avgApi).level,
   }))
 
   // Custom tooltip component
@@ -249,7 +284,7 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
         </Card>
 
         {/* Trends Chart */}
-        {selectedArea && enrichedData ? (
+        {selectedArea && enrichedData.length > 0 ? (
           <div className="space-y-6">
             {/* Location Header */}
             <div className="flex flex-wrap items-center gap-2 text-sky-600">

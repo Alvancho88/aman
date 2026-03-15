@@ -1,4 +1,4 @@
-import { getLatestAPI } from "@/lib/queries";
+import { getLatestAPI, getMonthlyTrends } from "@/lib/queries";
 import TrendsClient from "./trends-client"; // Import from the same folder
 import { Suspense } from "react";
 import { Wind } from "lucide-react";

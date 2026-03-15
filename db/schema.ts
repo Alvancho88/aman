@@ -1,5 +1,5 @@
 import { timestamptz } from "drizzle-orm/gel-core";
-import { pgTable, serial, text, integer, timestamp, doublePrecision, varchar, decimal } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, integer, timestamp, doublePrecision, varchar, decimal, date } from "drizzle-orm/pg-core";
 
 // Table 1: Station Details (Static Info)
 export const stations = pgTable("stations", {
@@ -18,4 +18,12 @@ export const realtimeApi = pgTable("realtime_api", {
   forecastApi: integer("forecast_api").notNull(),
   temperature: decimal("temperature"),
   updateTime: timestamp("updateTime"),
+});
+
+// Table 3: Historical API Data (Static Info)
+export const historicalApi = pgTable("historical_api", {
+  id: serial("id").primaryKey(),
+  stationId: integer("station_id").references(() => stations.stationId),
+  month: integer("month").notNull(), // Store month as integer (1-12)
+  monthlyAvgApi: integer("monthly_avg_api").notNull(),
 });
