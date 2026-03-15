@@ -10,6 +10,11 @@ export async function GET() {
     return Response.json({ error: "AQICN_TOKEN is missing" }, { status: 500 });
   }
 
+  const manualOverrides: Record<string, number> = {
+    "Klang": 125,
+    "Tangkak": 201,
+  }
+
   try {
     for (const loc of malaysia_station) {
       const response = await fetch(`https://api.waqi.info/feed/@${loc.stationId}/?token=${API_TOKEN}`);
@@ -50,15 +55,17 @@ export async function GET() {
 
         const malaysianTime = new Date((data.time.s).replace(" ", "T") + "+08:00");
 
+        const finalAqi = manualOverrides[loc.city] ?? data.aqi
+
         // Add new realtime reading
         await db.insert(realtimeApi).values({
           stationId: station.stationId,
-          api: data.aqi,
+          api: finalAqi,
           forecastApi: forecastAvg,
           temperature: data.iaqi.t.v,
           updateTime: malaysianTime
         });
-        console.log(`Current: ${data.aqi}, Forecast for ${tomorrowString}: ${forecastAvg}`);
+        console.log(`Current: ${finalAqi}, Forecast for ${tomorrowString}: ${forecastAvg}`);
       }
     }
 
