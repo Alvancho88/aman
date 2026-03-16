@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { stations, realtimeApi } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { malaysia_station } from "@/db/station-data";
-import { request } from "https";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
   const API_TOKEN = process.env.AQICN_TOKEN;
@@ -76,6 +76,8 @@ export async function POST(request: Request) {
         console.log(`Current: ${finalAqi}, Forecast for ${tomorrowString}: ${forecastAvg}`);
       }
     }
+
+    revalidatePath("/", "layout");
 
     return Response.json({ message: "Successfully updated cities" });
   } catch (error) {
