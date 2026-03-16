@@ -23,6 +23,10 @@ export async function POST(request: Request) {
     "Tangkak": 201,
   }
 
+  const manualOverridesForecast: Record<string, number> = {
+    "Klang": 108
+  }
+
   try {
     for (const loc of malaysia_station) {
       const response = await fetch(`https://api.waqi.info/feed/@${loc.stationId}/?token=${API_TOKEN}`);
@@ -65,11 +69,13 @@ export async function POST(request: Request) {
 
         const finalAqi = manualOverrides[loc.city] ?? data.aqi
 
+        const finalForecast = manualOverridesForecast[loc.city] ?? forecastAvg
+
         // Add new realtime reading
         await db.insert(realtimeApi).values({
           stationId: station.stationId,
           api: finalAqi,
-          forecastApi: forecastAvg,
+          forecastApi: finalForecast,
           temperature: data.iaqi.t.v,
           updateTime: malaysianTime
         });
