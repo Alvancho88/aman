@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { malaysia_station } from "@/db/station-data";
 import { request } from "https";
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   const API_TOKEN = process.env.AQICN_TOKEN;
   const CRON_SECRET = process.env.CRON_SECRET;
 

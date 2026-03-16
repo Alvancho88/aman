@@ -11,5 +11,5 @@ jobs:
     steps:
       - name: Hit the Update API
         run: |
-          curl -X POST "https://aman-tm02.vercel.app//api/cron/update-api" \
+          curl -X POST "https://aman-tm02.vercel.app/api/cron/update-api" \
           -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
