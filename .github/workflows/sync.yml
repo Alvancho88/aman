@@ -1,0 +1,15 @@
+name: Hourly Air Quality Sync
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Runs every hour
+  workflow_dispatch:      # Allows you to click "Run" manually in GitHub
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit the Update API
+        run: |
+          curl -X POST "https://aman-tm02.vercel.app//api/cron/update-api" \
+          -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
