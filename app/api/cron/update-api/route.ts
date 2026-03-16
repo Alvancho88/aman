@@ -2,9 +2,17 @@ import { db } from "@/db";
 import { stations, realtimeApi } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { malaysia_station } from "@/db/station-data";
+import { request } from "https";
 
-export async function GET() {
+export async function GET(request: Request) {
   const API_TOKEN = process.env.AQICN_TOKEN;
+  const CRON_SECRET = process.env.CRON_SECRET;
+
+  // Security Check
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${CRON_SECRET}`) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   if (!API_TOKEN) {
     return Response.json({ error: "AQICN_TOKEN is missing" }, { status: 500 });
