@@ -84,12 +84,14 @@ export default function MalaysiaMap({
       const category = getApiCategory(marker.api)
       const isHighlighted = marker.name === highlightArea
 
+      const textColor = marker.api >= 200 ? "white" : "black";
+
       // Create custom HTML icon
       const iconHtml = `
         <div style="display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -100%); cursor: pointer;">
           <div style="
             background-color: ${category.color};
-            color: black;
+            color: ${textColor};
             font-weight: bold;
             font-size: ${isHighlighted ? '16px' : '12px'};
             padding: ${isHighlighted ? '8px 12px' : '4px 8px'};

@@ -189,7 +189,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
                               style={{
                                 color:
                                   forecastCategory.level === "Moderate"
-                                    ? "#e6c200"
+                                    ? "#e6c400"
                                     : forecastCategory.color,
                               }}
                             >
@@ -268,29 +268,6 @@ export default function LocationContent({ initialData, allData, searchState, sea
               </CardContent>
             </Card>
 
-            {/* Warning Alert - Only show when API >= 100 */}
-            {showWarning && (
-              <Card className="shadow-lg border-0 bg-gradient-to-r from-red-500 to-orange-500">
-                <CardContent className="p-4 md:p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-white/20 p-3 rounded-full">
-                      <AlertTriangle className="h-8 w-8 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-white mb-2">
-                        ⚠️ Warning!!! Dangerous Polluted Air Outside!
-                      </h3>
-                      <p className="text-white/90 text-lg">
-                        The air quality in your area is currently at an unhealthy level. 
-                        Elderly individuals and those with respiratory conditions should 
-                        avoid outdoor activities.
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
             {/* View Pollution Trends Link */}
             <Link 
               href={`/trends?state=${encodeURIComponent(state)}&area=${encodeURIComponent(area)}`}
@@ -330,25 +307,56 @@ export default function LocationContent({ initialData, allData, searchState, sea
                     { level: "Unhealthy", range: "151-200", color: "#ff0000" },
                     { level: "Very Unhealthy", range: "201-300", color: "#8f3f97" },
                     { level: "Hazardous", range: "301-500", color: "#7e0023" },
-                  ].map((item) => (
-                    <div
-                      key={item.level}
-                      className={`flex items-center justify-between p-3 rounded-lg ${
-                        category.level === item.level ? "ring-2 ring-offset-2 ring-sky-500" : ""
-                      }`}
-                      style={{ backgroundColor: item.color }}
-                    >
-                      <span className="font-medium text-black">{item.level}</span>
-                      <span className="text-black/80">{item.range}</span>
-                    </div>
-                  ))}
+                  ].map((item) => {
+                    const isDark =
+                      item.level === "Hazardous" || item.level === "Very Unhealthy"
+
+                    return (
+                      <div
+                        key={item.level}
+                        className={`flex items-center justify-between p-3 rounded-lg ${
+                          category.level === item.level ? "ring-2 ring-offset-2 ring-sky-500" : ""
+                        } ${isDark ? "text-white" : "text-black"}`}
+                        style={{ backgroundColor: item.color }}
+                      >
+                        <span className="font-medium">{item.level}</span>
+                        <span className={isDark ? "text-white/80" : "text-black/80"}>
+                          {item.range}
+                        </span>
+                      </div>
+                    )
+                  })}
                 </div>
               </CardContent>
             </Card>
           </div>
 
           {/* Right Panel - Zoomed Map */}
-          <div className="lg:sticky lg:top-6 h-fit">
+          <div className="lg:sticky lg:top-6 h-fit space-y-6">
+
+          {/* Warning Alert - Only show when API >= 100 */}
+            {showWarning && (
+              <Card className="shadow-lg border-0 bg-gradient-to-r from-red-500 to-orange-500">
+                <CardContent className="p-4 md:p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="bg-white/20 p-3 rounded-full">
+                      <AlertTriangle className="h-8 w-8 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-2">
+                        ⚠️ Warning!!! Dangerous Polluted Air Outside!
+                      </h3>
+                      <p className="text-white/90 text-lg">
+                        The air quality in your area is currently at an unhealthy level. 
+                        Elderly individuals and those with respiratory conditions should 
+                        avoid outdoor activities.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}          
+
             <Card className="shadow-lg border-sky-100 overflow-hidden">
               <CardHeader className="pb-3 bg-white">
                 <CardTitle className="text-xl text-sky-900 flex flex-wrap items-center gap-2">

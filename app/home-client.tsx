@@ -211,12 +211,16 @@ export default function HomePage({ initialData }: { initialData: APIData[] }) {
                   { label: "Moderate", range: "51-100", color: "#ffff00" },
                   { label: "Unhealthy for Sensitive Groups", range: "101-150", color: "#ff7e00" },
                   { label: "Unhealthy", range: "151-200", color: "#ff0000" },
-                  { label: "Very Unhealthy", range: "201-300", color: "#8f3f97" },
-                  { label: "Hazardous", range: "301-500", color: "#7e0023" },
+                  { label: "Very Unhealthy", range: "201-300", color: "#903f97" },
+                  { label: "Hazardous", range: "301-500", color: "#7e0024" },
                 ].map((item) => (
                   <div
                     key={item.label}
-                    className="flex flex-wrap items-center gap-2 px-3 py-2 rounded-lg text-black font-medium text-sm"
+                    className={`flex flex-wrap items-center gap-2 px-3 py-2 rounded-lg font-medium text-sm ${
+                      item.label === "Hazardous" || item.label === "Very Unhealthy"
+                        ? "text-white"
+                        : "text-black"
+                    }`}
                     style={{ backgroundColor: item.color }}
                   >
                     <span>{item.label}</span>

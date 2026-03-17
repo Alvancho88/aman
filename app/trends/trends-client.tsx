@@ -411,16 +411,25 @@ export default function TrendsContent({ initialData }: { initialData: any[] }) {
                     { level: "Unhealthy", range: "151-200", color: "#ff0000" },
                     { level: "Very Unhealthy", range: "201-300", color: "#8f3f97" },
                     { level: "Hazardous", range: "301-500", color: "#7e0023" },
-                  ].map((item) => (
-                    <div
-                      key={item.level}
-                      className="flex flex-col items-center p-3 rounded-lg text-black text-center"
-                      style={{ backgroundColor: item.color }}
-                    >
-                      <span className="font-medium text-sm">{item.level}</span>
-                      <span className="text-xs opacity-70">{item.range}</span>
-                    </div>
-                  ))}
+                  ].map((item) => {
+                    const isDark =
+                      item.level === "Hazardous" || item.level === "Very Unhealthy"
+
+                    return (
+                      <div
+                        key={item.level}
+                        className={`flex flex-col items-center p-3 rounded-lg text-center ${
+                          isDark ? "text-white" : "text-black"
+                        }`}
+                        style={{ backgroundColor: item.color }}
+                      >
+                        <span className="font-medium text-sm">{item.level}</span>
+                        <span className={isDark ? "text-white/80 text-xs" : "text-black/70 text-xs"}>
+                          {item.range}
+                        </span>
+                      </div>
+                    )
+                  })}
                 </div>
               </CardContent>
             </Card>
