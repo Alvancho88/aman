@@ -108,7 +108,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           {/* Left Panel - API Information */}
           <div className="space-y-6">
             {/* API Value Card + summary */}
@@ -332,7 +332,7 @@ export default function LocationContent({ initialData, allData, searchState, sea
           </div>
 
           {/* Right Panel - Zoomed Map */}
-          <div className="lg:sticky lg:top-6 h-fit space-y-6">
+          <div className="lg:sticky lg:bottom-6 lg:self-end h-fit space-y-6">
 
           {/* Warning Alert - Only show when API >= 100 */}
             {showWarning && (
