@@ -1,6 +1,7 @@
 import { timestamptz } from "drizzle-orm/gel-core";
 import { pgTable, serial, text, integer, timestamp, doublePrecision, varchar, decimal, date } from "drizzle-orm/pg-core";
 
+// Test comment
 // Table 1: Station Details (Static Info)
 export const stations = pgTable("stations", {
   stationId: integer("station_id").primaryKey(),
