@@ -1,4 +1,5 @@
 "use client"
+// This is a client component because it uses useState and useEffect to manage user interactions and localStorage persistence. It also uses Next.js navigation hooks for routing.
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
@@ -344,6 +345,7 @@ export default function ComparePage({ initialData }: { initialData: any[] }) {
                   </CardContent>
                 </Card>
               </div>
+              
 
               <Card className="border-sky-100 shadow-sm">
                 <CardContent className="p-4 md:p-6">
